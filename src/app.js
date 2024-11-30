@@ -6,9 +6,11 @@ import handlebars from 'express-handlebars';
 import viewsRouter from './routes/views.router.js';
 import {Server} from 'socket.io';
 import mongoose from 'mongoose';
+import 'dotenv/config'
+
+const{PORT, MONGO_URI_REMOTE} = process.env;
 
 const app = express();
-const port = config.port;
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -23,10 +25,10 @@ app.set('views',`${config.dirName}/views`);
 app.set('view engine', 'handlebars');
 
 
-const httpServer = app.listen(port, async ()=>{
+const httpServer = app.listen(PORT, async ()=>{
     try{
-        await mongoose.connect(config.mongoURI_remote)
-        console.log(`Listening on Port ${port}`);
+        await mongoose.connect(MONGO_URI_REMOTE)
+        console.log(`Listening on Port ${PORT}`);
     }catch{
         console.log("Couldn't connect with DataBase.")
         process.exit;
